@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="UserMapper">
+	<cache type="org.mybatis.caches.ehcache.LoggingEhcache"/> 
+	
+	<!-- 判断用户名和密码 -->
+	<select id="getUserInfo" parameterType="pd" resultType="pd" useCache="false"><!-- insert update delete (flushCache="true/false") -->
+		select * from SYS_USER 
+		where 1=1
+		<if test="USERNAME != null and PASSWORD != null">
+	  	and	(USERNAME = #{USERNAME} and PASSWORD = #{PASSWORD})
+		</if>
+		<if test="USER_ID != null and USER_ID != ''">
+		and USER_ID = #{USER_ID}
+		</if>
+	</select>
+	
+	<select id="getUserInfo1" parameterType="User" resultType="User" useCache="false"><!-- insert update delete (flushCache="true/false") -->
+		select * from SYS_USER 
+		where 1=1
+		<if test="USERNAME != null and PASSWORD != null">
+	  	and	(USERNAME = #{USERNAME} and PASSWORD = #{PASSWORD})
+		</if>
+		<if test="USER_ID != null and USER_ID != ''">
+		and USER_ID = #{USER_ID}
+		</if>
+	</select>
+	
+	
+	<!-- 新增用户 -->
+	<insert id="saveU" parameterType="pd" flushCache="false">
+		insert into SYS_USER (
+			USER_ID,
+			USERNAME,
+			PASSWORD
+		) values (
+			#{USER_ID},
+			#{USERNAME},
+			#{PASSWORD}
+		)
+	</insert>
+	
+	<insert id="save" parameterType="User">
+			insert into SYS_USER (
+			USER_ID,
+			USERNAME,
+			PASSWORD
+		) values (
+			#{USER_ID},
+			#{USERNAME},
+			#{PASSWORD}
+		)
+	</insert>
+	
+</mapper>
